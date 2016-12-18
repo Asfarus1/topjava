@@ -8,16 +8,15 @@ import java.util.concurrent.atomic.AtomicInteger;
  * 11.01.2015.
  */
 public class MealWithExceed {
-    private static final AtomicInteger nextId = new AtomicInteger(0);
 
     private final LocalDateTime dateTime;
     private final String description;
     private final int calories;
     private final boolean exceed;
-    private final int id;
+    private int id;
 
-    public MealWithExceed(LocalDateTime dateTime, String description, int calories, boolean exceed) {
-        this.id = nextId.getAndIncrement();
+    public MealWithExceed(LocalDateTime dateTime, String description, int calories, boolean exceed,int id) {
+        this.id = id;
         this.dateTime = dateTime;
         this.description = description;
         this.calories = calories;

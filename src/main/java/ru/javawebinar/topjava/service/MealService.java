@@ -1,55 +1,71 @@
 package ru.javawebinar.topjava.service;
 
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.model.MealWithExceed;
+import ru.javawebinar.topjava.util.TimeUtil;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.Month;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created by asfarus on 14.12.2016.
  */
-public class MealService implements MealRepository {
-    private Map<Integer,Meal> meals;
+public class MealService{
+    private Map<Integer,Meal> meals = new HashMap<>();
+    private final static AtomicInteger idGenerator = new AtomicInteger(0);
+
+    {
+        update(new Meal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500));
+        update(new Meal(LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000));
+        update(new Meal(LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500));
+        update(new Meal(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000));
+        update(new Meal(LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500));
+        update(new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510));
+    }
 
     public MealService() {
-       meals = Stream.of(
-                new Meal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510)
-        ).collect(Collectors.toMap(Meal::getId,meal -> meal));
     }
 
-    @Override
-    public List<Meal> getAll() {
-        List<Meal> res = new ArrayList<>(meals.size());
-        res.addAll(meals.values());
-        return Collections.unmodifiableList(res);
+    public List<MealWithExceed> getAll() {
+        List<Meal> list = meals.values().stream().collect(Collectors.toList());
+        return getFilteredWithExceeded(list,LocalTime.MIN,LocalTime.MAX,2000);
     }
 
-    @Override
-    public Meal getById(int id) {
+    public Meal get(int id) {
         return meals.get(id);
     }
 
-    @Override
-    public void deleteById(int id) {
+    public void delete(int id) {
         meals.remove(id);
     }
 
-    @Override
-    public void update(Meal entity) {
-        meals.put(entity.getId(),entity);
+    public void update(Meal meal) {
+        if (meal.getId() == 0)
+            meal.setId(idGenerator.incrementAndGet());
+        meals.put(meal.getId(),meal);
     }
 
-    @Override
-    public void add(Meal entity) {
-        meals.put(entity.getId(),entity);
+    public static List<MealWithExceed> getFilteredWithExceeded(List<Meal> meals, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
+        Map<LocalDate, Integer> caloriesSumByDate = meals.stream()
+                .collect(
+                        Collectors.groupingBy(Meal::getDate, Collectors.summingInt(Meal::getCalories))
+//                      Collectors.toMap(Meal::getDate, Meal::getCalories, Integer::sum)
+                );
+
+        return meals.stream()
+                .filter(meal -> TimeUtil.isBetween(meal.getTime(), startTime, endTime))
+                .map(meal -> createWithExceed(meal, caloriesSumByDate.get(meal.getDate()) > caloriesPerDay))
+                .collect(Collectors.toList());
+    }
+
+    public static MealWithExceed createWithExceed(Meal meal, boolean exceeded) {
+        return new MealWithExceed(meal.getDateTime(), meal.getDescription(), meal.getCalories(), exceeded,meal.getId());
     }
 }
