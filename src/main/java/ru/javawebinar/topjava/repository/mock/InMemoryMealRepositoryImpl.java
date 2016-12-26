@@ -37,7 +37,8 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     private Map<Integer,Meal> getMealRepositoryForAutorizedUser(int userId){
         Map<Integer,Meal> result = repository.get(userId);
         if (result == null){
-            result = repository.put(userId,new ConcurrentHashMap<>());
+            result = new ConcurrentHashMap<>();
+            repository.put(userId,result);
         }
         return result;
     }
@@ -47,7 +48,7 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
         if (meal.isNew()) {
             meal.setId(counter.incrementAndGet());
         }
-        getMealRepositoryForAutorizedUser(meal.getId()).put(meal.getId(),meal);
+        getMealRepositoryForAutorizedUser(meal.getUser().getId()).put(meal.getId(),meal);
         return meal;
     }
 

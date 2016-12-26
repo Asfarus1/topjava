@@ -1,8 +1,8 @@
 package ru.javawebinar.topjava.util;
 
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
-import ru.javawebinar.topjava.service.UserService;
 import ru.javawebinar.topjava.to.MealWithExceed;
 
 import java.time.LocalDate;
@@ -17,28 +17,23 @@ import java.util.stream.Collectors;
  * 31.05.2015.
  */
 public class MealsUtil {
-    public static final List<Meal> MEALS;
-    public static final List<User> USERS;
 
-    static {
-        USERS = Arrays.asList(new User(null,"User1",null,null,null)
-                ,new User(null,"User2",null,null,null));
-
-        MEALS = Arrays.asList(
+    public static final List<User> USERS = Arrays.asList(new User(1,"User1",null,null, Role.ROLE_USER)
+            ,new User(2,"User2",null,null,Role.ROLE_USER));
+    public static final List<Meal> MEALS = Arrays.asList(
                 new Meal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500,USERS.get(0)),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000,USERS.get(0)),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500,USERS.get(0)),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000,USERS.get(0)),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500,USERS.get(0)),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510,USERS.get(0)),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500,USERS.get(1)),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000,USERS.get(1)),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500,USERS.get(1)),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000,USERS.get(1)),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500,USERS.get(1)),
-                new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510,USERS.get(1))
-        );
-    }
+            new Meal(LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000,USERS.get(0)),
+            new Meal(LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500,USERS.get(0)),
+            new Meal(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000,USERS.get(0)),
+            new Meal(LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500,USERS.get(0)),
+            new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510,USERS.get(0)),
+            new Meal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500,USERS.get(1)),
+            new Meal(LocalDateTime.of(2015, Month.MAY, 30, 13, 0), "Обед", 1000,USERS.get(1)),
+            new Meal(LocalDateTime.of(2015, Month.MAY, 30, 20, 0), "Ужин", 500,USERS.get(1)),
+            new Meal(LocalDateTime.of(2015, Month.MAY, 31, 10, 0), "Завтрак", 1000,USERS.get(1)),
+            new Meal(LocalDateTime.of(2015, Month.MAY, 31, 13, 0), "Обед", 500,USERS.get(1)),
+            new Meal(LocalDateTime.of(2015, Month.MAY, 31, 20, 0), "Ужин", 510,USERS.get(1))
+            );
 
     public static final int DEFAULT_CALORIES_PER_DAY = 2000;
 

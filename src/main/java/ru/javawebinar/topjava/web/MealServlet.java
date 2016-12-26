@@ -59,6 +59,7 @@ public class MealServlet extends HttpServlet {
             LOG.info("getAll");
             request.setAttribute("meals",
                     mealService.getAll(AuthorizedUser.id(),AuthorizedUser.getCaloriesPerDay()));
+
             request.getRequestDispatcher("/meals.jsp").forward(request, response);
 
         } else if ("delete".equals(action)) {

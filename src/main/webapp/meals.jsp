@@ -19,6 +19,38 @@
 <section>
     <h2><a href="index.html">Home</a></h2>
     <h2>Meal list</h2>
+    <form method="get" action="meals">
+        <dl>
+            <dt>User</dt>
+            <dd>
+        <select name="userId">
+            <option value="1">1</option>
+            <option value="2">2</option>
+        </select>
+            </dd>
+        </dl>
+
+        <dl>
+            <dt>Start date</dt>
+            <dd><input type="datetime-local" name="startDate" value="${startDate}"></dd>
+        </dl>
+
+        <dl>
+            <dt>End date</dt>
+            <dd><input type="datetime-local" name="endDate" value="${endDate}"></dd>
+        </dl>
+
+        <dl>
+            <dt>Start time</dt>
+            <dd><input type="time" name="startTime" value="${startTime}"></dd>
+        </dl>
+
+        <dl>
+            <dt>End time</dt>
+            <dd><input type="time" name="endTime" value="${endTime}"></dd>
+        </dl>
+        <input type="submit" title="Apply selection">
+    </form>
     <a href="meals?action=create">Add Meal</a>
     <hr>
     <table border="1" cellpadding="8" cellspacing="0">
