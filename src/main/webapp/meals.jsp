@@ -32,17 +32,17 @@
 
         <dl>
             <dt>Start date</dt>
-            <dd><input type="date" name="startDate" value="${startDate}"></dd>
+            <dd><input type="date" name="startDate" value="${param.startDate}"></dd>
         </dl>
 
         <dl>
             <dt>End date</dt>
-            <dd><input type="date" name="endDate" value="${endDate}"></dd>
+            <dd><input type="date" name="endDate" value="${param.endDate}"></dd>
         </dl>
 
         <dl>
             <dt>Start time</dt>
-            <dd><input type="time" name="startTime" value="${startTime}"></dd>
+            <dd><input type="time" name="startTime" value="${param.startTime}"></dd>
         </dl>
 
         <dl>

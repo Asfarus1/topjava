@@ -59,13 +59,18 @@ public class MealServlet extends HttpServlet {
 
         if (action == null) {
             LOG.info("getAll");
-            LocalDate startDate = LocalDate.parse(request.getParameter("startDate"));
-            LocalDate endtDate = LocalDate.parse(request.getParameter("endtDate"));
-            LocalTime startTime = LocalTime.parse(request.getParameter("startTime"));
-            LocalTime endtTime = LocalTime.parse(request.getParameter("endtTime"));
+            LocalDate startDate = getStartDate(request);
+            LocalDate endtDate = getEndDate(request);
+            LocalTime startTime = getStartTime(request);
+            LocalTime endtTime = getEndTime(request);
 
             request.setAttribute("meals",
                     mealService.getDuringPeriod(startDate,endtDate,startTime,endtTime,AuthorizedUser.id(),AuthorizedUser.getCaloriesPerDay()));
+
+            request.setAttribute("startDate",startDate);
+            request.setAttribute("endtDate",endtDate);
+            request.setAttribute("startTime",startTime);
+            request.setAttribute("endTime",endtTime);
 
             request.getRequestDispatcher("/meals.jsp").forward(request, response);
 
@@ -87,5 +92,24 @@ public class MealServlet extends HttpServlet {
     private int getId(HttpServletRequest request) {
         String paramId = Objects.requireNonNull(request.getParameter("id"));
         return Integer.valueOf(paramId);
+    }
+
+    private LocalDate getStartDate(HttpServletRequest request){
+        String date = request.getParameter("startDate");
+        return date == null||date.isEmpty()?LocalDate.MIN:LocalDate.parse(date);
+    }
+
+ private LocalDate getEndDate(HttpServletRequest request){
+        String date = request.getParameter("endDate");
+        return date == null||date.isEmpty()?LocalDate.MAX:LocalDate.parse(date);
+    }
+private LocalTime getStartTime(HttpServletRequest request){
+        String date = request.getParameter("startTime");
+        return date == null||date.isEmpty()?LocalTime.MIN:LocalTime.parse(date);
+    }
+
+ private LocalTime getEndTime(HttpServletRequest request){
+        String date = request.getParameter("endTime");
+        return date == null||date.isEmpty()?LocalTime.MAX:LocalTime.parse(date);
     }
 }
