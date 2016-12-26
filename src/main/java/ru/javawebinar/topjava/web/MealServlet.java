@@ -15,7 +15,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Objects;
 
@@ -57,8 +59,13 @@ public class MealServlet extends HttpServlet {
 
         if (action == null) {
             LOG.info("getAll");
+            LocalDate startDate = LocalDate.parse(request.getParameter("startDate"));
+            LocalDate endtDate = LocalDate.parse(request.getParameter("endtDate"));
+            LocalTime startTime = LocalTime.parse(request.getParameter("startTime"));
+            LocalTime endtTime = LocalTime.parse(request.getParameter("endtTime"));
+
             request.setAttribute("meals",
-                    mealService.getAll(AuthorizedUser.id(),AuthorizedUser.getCaloriesPerDay()));
+                    mealService.getDuringPeriod(startDate,endtDate,startTime,endtTime,AuthorizedUser.id(),AuthorizedUser.getCaloriesPerDay()));
 
             request.getRequestDispatcher("/meals.jsp").forward(request, response);
 

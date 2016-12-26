@@ -32,12 +32,12 @@
 
         <dl>
             <dt>Start date</dt>
-            <dd><input type="datetime-local" name="startDate" value="${startDate}"></dd>
+            <dd><input type="date" name="startDate" value="${startDate}"></dd>
         </dl>
 
         <dl>
             <dt>End date</dt>
-            <dd><input type="datetime-local" name="endDate" value="${endDate}"></dd>
+            <dd><input type="date" name="endDate" value="${endDate}"></dd>
         </dl>
 
         <dl>
