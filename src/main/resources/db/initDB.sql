@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS user_roles;
-DROP TABLE IF EXISTS users;
-DROP TABLE IF EXISTS meals;
+DROP TABLE IF EXISTS user_roles CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS meals CASCADE;
 
 DROP SEQUENCE IF EXISTS global_seq;
 
@@ -36,5 +36,5 @@ CREATE TABLE meals
   user_id     INTEGER NOT NULL,
   FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
-CREATE UNIQUE INDEX meals_unique_user_idx
+CREATE INDEX meals_unique_user_idx
   ON meals (user_id);
