@@ -125,6 +125,8 @@
             <version>2.2.5</version>
             <scope>provided</scope>
         </dependency>
+
+        <!--http://hibernate.org/validator/documentation/getting-started/#unified-expression-language-el-->
         <dependency>
             <groupId>org.glassfish.web</groupId>
             <artifactId>javax.el</artifactId>
