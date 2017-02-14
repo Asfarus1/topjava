@@ -2,10 +2,12 @@ package ru.javawebinar.topjava;
 
 import ru.javawebinar.topjava.matcher.ModelMatcher;
 import ru.javawebinar.topjava.model.Meal;
+import ru.javawebinar.topjava.to.MealWithExceed;
 
 import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import static java.time.LocalDateTime.of;
 import static ru.javawebinar.topjava.model.BaseEntity.START_SEQ;
@@ -16,7 +18,22 @@ import static ru.javawebinar.topjava.model.BaseEntity.START_SEQ;
  */
 public class MealTestData {
 
-    public static final ModelMatcher<Meal> MATCHER = ModelMatcher.of(Meal.class);
+    public static final ModelMatcher<Meal> MATCHER = ModelMatcher.of(Meal.class,(expected, actual) ->
+        expected == actual || (Objects.equals(expected.getId(),actual.getId())
+                && Objects.equals(expected.getCalories(),actual.getCalories())
+                && Objects.equals(expected.getDateTime(),actual.getDateTime())
+                && Objects.equals(expected.getDescription(),actual.getDescription())
+        )
+    );
+
+    public static final ModelMatcher<MealWithExceed> WITH_EXCEED_MODEL_MATCHER = ModelMatcher.of(MealWithExceed.class,(expected, actual) ->
+        expected == actual || (Objects.equals(expected.getId(),actual.getId())
+                && Objects.equals(expected.getCalories(),actual.getCalories())
+                && Objects.equals(expected.getDateTime(),actual.getDateTime())
+                && Objects.equals(expected.getDescription(),actual.getDescription())
+                && Objects.equals(expected.isExceed(),actual.isExceed())
+        )
+    );
 
     public static final int MEAL1_ID = START_SEQ + 2;
     public static final int ADMIN_MEAL_ID = START_SEQ + 8;

@@ -64,4 +64,6 @@ abstract public class AbstractControllerTest {
         userService.evictCache();
         jpaUtil.clear2ndLevelHibernateCache();
     }
+
+    public void tearDown(){};
 }
