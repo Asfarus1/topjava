@@ -1,5 +1,6 @@
 package ru.javawebinar.topjava.util;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -11,11 +12,11 @@ public class DateTimeUtil {
         return lt.compareTo(startTime) >= 0 && lt.compareTo(endTime) <= 0;
     }
 
-    public static String toString(LocalDateTime dateTime){
-        return dateTime.format(DATE_TIME_FORMATTER);
+    public static boolean isBetween(LocalDate lt, LocalDate startDate, LocalDate endDate) {
+        return lt.compareTo(startDate) >= 0 && lt.compareTo(endDate) <= 0;
     }
 
-    public static LocalDateTime parse(String strDate){
-        return LocalDateTime.from(DATE_TIME_FORMATTER.parse(strDate));
+    public static String toString(LocalDateTime dateTime){
+        return dateTime.format(DATE_TIME_FORMATTER);
     }
 }

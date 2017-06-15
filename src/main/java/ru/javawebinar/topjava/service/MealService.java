@@ -1,24 +1,18 @@
 package ru.javawebinar.topjava.service;
 
+import ru.javawebinar.topjava.dto.MealWithExceed;
 import ru.javawebinar.topjava.model.Meal;
-import ru.javawebinar.topjava.model.MealWithExceed;
+import ru.javawebinar.topjava.repository.MealRepository;
+import ru.javawebinar.topjava.util.ValidationUtil;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.Month;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
-
-import static ru.javawebinar.topjava.util.MealsUtil.getFilteredWithExceeded;
 
 public class MealService {
 
-    AtomicLong key = new AtomicLong(0);
-    private Map<Long, Meal> meals = new ConcurrentHashMap<>();
-
+    private MealRepository mealRepository;
     {
         Arrays.stream(new Meal[]{
                         new Meal(LocalDateTime.of(2015, Month.MAY, 30, 10, 0), "Завтрак", 500),
@@ -31,22 +25,20 @@ public class MealService {
         ).forEach(this::save);
     }
 
-    public List<MealWithExceed> getAll(){
-        return getFilteredWithExceeded(meals.values(), LocalTime.MIN, LocalTime.MAX, 2000);
+
+    public List<MealWithExceed> getAll(long userId, int caloriesPerDay){
+        return mealRepository.getAll(userId, caloriesPerDay);
     }
 
     public void save(Meal meal){
-        if (meal.getId() == 0){
-            meal.setId(key.incrementAndGet());
-        }
-        meals.put(meal.getId(), meal);
+        mealRepository.save(meal);
     }
 
-    public Meal get(long id){
-        return meals.get(id);
+    public Meal get(long mealId, long userId){
+        return ValidationUtil.checkNotFoundWithId(mealRepository.get(mealId, userId),mealId);
     }
 
-    public void remove(long id) {
-        meals.remove(id);
+    public void remove(long mealId, long userId) {
+        ValidationUtil.checkNotFoundWithId(mealRepository.remove(mealId, userId),mealId);
     }
 }

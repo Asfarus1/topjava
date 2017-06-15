@@ -24,7 +24,7 @@
     </thead>
     <tbody>
     <c:forEach items="${requestScope.meals}" var="meal">
-        <jsp:useBean id="meal" type="ru.javawebinar.topjava.model.MealWithExceed"/>
+        <jsp:useBean id="meal" type="ru.javawebinar.topjava.dto.MealWithExceed"/>
         <tr class="${meal.exceed?'exceed':'not_exceed'}">
             <td><a name="meal${meal.id}" href="?action=edit&id=${meal.id}">Изменить</a></td>
             <td><%=DateTimeUtil.toString(meal.getDateTime())%></td>

@@ -4,48 +4,39 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
-public class Meal {
+public class Meal extends NamedEntity{
+
     private LocalDateTime dateTime;
 
-    private String description;
-
     private int calories;
-    private long id;
+
+    private User user;
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
 
     public void setCalories(int calories) {
         this.calories = calories;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public Meal() {
+        super();
     }
 
     public Meal(LocalDateTime dateTime, String description, int calories) {
-        this.dateTime = dateTime;
-        this.description = description;
-        this.calories = calories;
+        this(0, dateTime, description, calories);
     }
 
     public Meal(long id, LocalDateTime dateTime, String description, int calories) {
         this.dateTime = dateTime;
-        this.description = description;
+        this.setDescription(description);
         this.calories = calories;
-        this.id = id;
+        this.setId(id);
     }
 
     public LocalDateTime getDateTime() {
         return dateTime;
-    }
-
-    public String getDescription() {
-        return description;
     }
 
     public int getCalories() {
@@ -58,5 +49,13 @@ public class Meal {
 
     public LocalTime getTime() {
         return dateTime.toLocalTime();
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
